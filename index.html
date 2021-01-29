@@ -11,6 +11,10 @@
         rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- bootstrap -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+
 </head>
 
 <body>
@@ -51,7 +55,7 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input id="firstClassInput" class="inp-style inp-width" type="number" name="" value="0">
+                    <input id="firstClassInput" class="inp-style inp-width"  name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
                     <p><span id="firstClassPlus" style="cursor: pointer;">+</span> <span id="firstClassMinus" style="cursor: pointer;">-</span></p>
@@ -61,7 +65,7 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input id="economyInput" class="inp-style inp-width" type="number" name="" value="0">
+                    <input id="economyInput" class="inp-style inp-width"  name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
                     <p><span id="economyPlus" style="cursor: pointer;">+</span> <span id="economyMinus" style="cursor: pointer;">-</span></p>
@@ -95,13 +99,21 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="bookBtn" class="btn-style">Book Now</button>
         </div>
 
-        <div class="booking-content">
+        <div id="discover" class="booking-content">
             <h1>discover <br> around the world</h1>
+            
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
         </div>
+
+        <div id="confirmation" class="confirmation">
+            <h3>Thank you for booking your ticket(s).</h3>
+            <p>You have purchased -- ticket(s) with a cost of total $ --.</p>
+            <p>-- Taka has been added as Value Added Tax.</p>
+        </div>
+
     </section>
 
     <!--Script--------------------------->
@@ -111,32 +123,29 @@
         var economyPlus = document.getElementById("economyPlus");
         var economyMinus = document.getElementById("economyMinus");
 
+        var confirmation = document.getElementById("confirmation");
+        confirmation.style.display = "none";
+        var bookBtn = document.getElementById("bookBtn");
+        bookBtn.addEventListener("click", function(){
+            confirmation.style.display = "block";
+            document.getElementById("discover").style.display = "none";
+        })
+
+
         firstClassPlus.addEventListener("click", function(){
-            // var firstClassInput = document.getElementById("firstClassInput").value;
-            // var firstClassInputParse = parseFloat(firstClassInput);
-            // console.log(firstClassInput);
             ticketCountChange("plus", "firstClassInput");
             calculation();
         })
         firstClassMinus.addEventListener("click", function(){
-            // var firstClassInput = document.getElementById("firstClassInput").value;
-            // var firstClassInputParse = parseFloat(firstClassInput);
-            // console.log(firstClassInput);
             ticketCountChange("minus", "firstClassInput");
             calculation();
 
         })
         economyPlus.addEventListener("click", function(){
-            // var firstClassInput = document.getElementById("firstClassInput").value;
-            // var firstClassInputParse = parseFloat(firstClassInput);
-            // console.log(firstClassInput);
             ticketCountChange("plus", "economyInput");
             calculation();
         })
         economyMinus.addEventListener("click", function(){
-            // var firstClassInput = document.getElementById("firstClassInput").value;
-            // var firstClassInputParse = parseFloat(firstClassInput);
-            // console.log(firstClassInput);
             ticketCountChange("minus", "economyInput");
             calculation();
         })
@@ -160,6 +169,8 @@
 
 
         }
+
+        
     </script>
 </body>
 

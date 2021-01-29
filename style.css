@@ -120,3 +120,7 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+.confirmation{
+    width: 80%;
+    background-color: #3352F2;
+}
