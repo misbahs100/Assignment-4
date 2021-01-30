@@ -31,8 +31,8 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
-        <div class="booking-form">
+    <main  class="main-content container">
+        <div id="bookingForm" class="booking-form">
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <button id="bookBtn" class="btn-style">Book Now</button>
+            <button id="bookingBtn" class="btn-style">Book Now</button>
         </div>
 
         <div id="discover" class="booking-content">
@@ -108,13 +108,14 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
         </div>
 
-        <div id="confirmation" class="confirmation">
-            <h3>Thank you for booking your ticket(s).</h3>
-            <p>You have purchased -- ticket(s) with a cost of total $ --.</p>
-            <p>-- Taka has been added as Value Added Tax.</p>
-        </div>
+        
 
     </section>
+    <div id="confirmation" class="confirmation booking-form">
+        <h3>Thank you for booking your ticket(s).</h3>
+        <p>You have purchased your ticket(s) with a cost of total $<span id="confirmTotal">0</span>.</p>
+        <p>$<span id="confirmVAT">0</span> has been added as Value Added Tax.</p>
+    </div>
 
     <!--Script--------------------------->
     <script>
@@ -122,19 +123,14 @@
         var firstClassMinus = document.getElementById("firstClassMinus");
         var economyPlus = document.getElementById("economyPlus");
         var economyMinus = document.getElementById("economyMinus");
-
-        var confirmation = document.getElementById("confirmation");
-        confirmation.style.display = "none";
-        var bookBtn = document.getElementById("bookBtn");
-        bookBtn.addEventListener("click", function(){
-            confirmation.style.display = "block";
-            document.getElementById("discover").style.display = "none";
-        })
-
+        
+        bookingBtn();   // in case of - if customer doesn't book any ticket
 
         firstClassPlus.addEventListener("click", function(){
-            ticketCountChange("plus", "firstClassInput");
-            calculation();
+           ticketCountChange("plus", "firstClassInput");
+           calculation();
+           
+           
         })
         firstClassMinus.addEventListener("click", function(){
             ticketCountChange("minus", "firstClassInput");
@@ -156,6 +152,7 @@
             else if(indicator == "minus" && ticketCount>0) {ticketCount--;}
 
             document.getElementById(id).value = ticketCount;
+            
         }
         function calculation(){
             var firstClassTicket = document.getElementById("firstClassInput").value;
@@ -167,9 +164,34 @@
             var total = (subtotal + vat); 
             document.getElementById("total").innerText = total;
 
-
+            return subtotal;
+            
         }
+       
+        function bookingBtn(){
+            var confirmation = document.getElementById("confirmation");
+            confirmation.style.display = "none";
+            var bookBtn = document.getElementById("bookingBtn");
+            
+            bookBtn.addEventListener("click", function(){
+            confirmation.style.display = "block";
+            document.getElementById("bookingForm").style.display = "none"; 
 
+          
+            var confirmSubtotal = calculation();
+            var confirmVAT = Math.round(confirmSubtotal * 0.1);
+            var confirmTotal = (confirmSubtotal + confirmVAT);
+            if(confirmTotal == "0") {
+                confirmation.innerText = "Sorry, You didn't book any ticket.";
+            }
+            else {
+                document.getElementById("confirmTotal").innerText = confirmTotal;
+                document.getElementById("confirmVAT").innerText = confirmVAT;
+            }
+           
+        }) 
+        }
+        
         
     </script>
 </body>

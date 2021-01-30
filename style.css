@@ -115,6 +115,7 @@ nav ul li a:hover, a.active{
     color: #fff;
     font-weight: 500;
     background-color:  #3352F2;
+    cursor: pointer;
 }
 .amount{
     display: flex;
@@ -122,5 +123,6 @@ nav ul li a:hover, a.active{
 }
 .confirmation{
     width: 80%;
-    background-color: #3352F2;
+    color: white;
+    background-color:  #3352F2;
 }
