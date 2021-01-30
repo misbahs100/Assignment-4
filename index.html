@@ -11,10 +11,6 @@
         rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- bootstrap -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-
 </head>
 
 <body>
@@ -58,7 +54,7 @@
                     <input id="firstClassInput" class="inp-style inp-width"  name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p><span id="firstClassPlus" style="cursor: pointer;">+</span> <span id="firstClassMinus" style="cursor: pointer;">-</span></p>
+                    <button id="firstClassPlus" style="cursor: pointer;">+</button> <button id="firstClassMinus" style="cursor: pointer;">-</button>
                 </div>
             </div>
             
@@ -68,7 +64,7 @@
                     <input id="economyInput" class="inp-style inp-width"  name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p><span id="economyPlus" style="cursor: pointer;">+</span> <span id="economyMinus" style="cursor: pointer;">-</span></p>
+                    <button id="economyPlus" style="cursor: pointer;">+</button> <button id="economyMinus" style="cursor: pointer;">-</button>
                 </div>
             </div>
             <div id="calculations" class="calculations">
@@ -111,8 +107,11 @@
         
 
     </section>
+
+    <!-- Hiding section, will be visible after clicking "book now button" -->
     <div id="confirmation" class="confirmation booking-form">
-        <h3>Thank you for booking your ticket(s).</h3>
+        <h2>Thank you for booking your ticket(s).</h2>
+        <br>
         <p>Number of first class ticket(s): <span id="firstClassTicket">0</span></p>
         <p>Number of economy ticket(s): <span id="economyTicket">0</span></p>
         <br>
@@ -122,7 +121,7 @@
         
     </div>
 
-    <!--Script--------------------------->
+    <!--JavaScript--------------------------->
     <script>
         var firstClassPlus = document.getElementById("firstClassPlus");
         var firstClassMinus = document.getElementById("firstClassMinus");
@@ -148,12 +147,12 @@
             calculation();
         })
 
+        // function for changing ticket numbers when plus or minus button is clicked
         function ticketCountChange(indicator, id){
             var ticketCount = document.getElementById(id).value;
             if(indicator == "plus") {
                 ticketCount++;
                 document.getElementById(id).value = ticketCount;
-            
             }
             else if(indicator == "minus" && ticketCount>0) {
                 ticketCount--;
@@ -161,56 +160,53 @@
             }
             else if(indicator == "confirmation"){
                 return ticketCount;
-            }
-
-            
-                        
+            }               
         }
+
+        // function for calculating the cost of the tickets
         function calculation(){
             var firstClassTicket = document.getElementById("firstClassInput").value;
             var economyTicket = document.getElementById("economyInput").value;
-            var subtotal = (firstClassTicket * 150 + economyTicket * 100);
+            var subtotal = ((firstClassTicket * 150) + (economyTicket * 100));  // calculating subtotal cost
             document.getElementById("subtotal").innerText = subtotal;
-            var vat = Math.round(subtotal * 0.1);
+            var vat = Math.round(subtotal * 0.1);    // calculating 10% VAT
             document.getElementById("vat").innerText = vat;
-            var total = (subtotal + vat); 
+            var total = (subtotal + vat);    // calculating total cost.
             document.getElementById("total").innerText = total;
 
             return subtotal;
             
         }
-        //confirmation
+
+        // function for booking button
         function bookingBtn(){
-            
             var confirmation = document.getElementById("confirmation");
             confirmation.style.display = "none";
             var bookBtn = document.getElementById("bookingBtn");
             
+            // if booking button is clicked
             bookBtn.addEventListener("click", function(){
             confirmation.style.display = "block";
             document.getElementById("bookingForm").style.display = "none"; 
 
             var confirmSubtotal = calculation();
-            var confirmVAT = Math.round(confirmSubtotal * 0.1);
-            var confirmTotal = (confirmSubtotal + confirmVAT);
-            console.log(confirmTotal);
-            if(confirmSubtotal == "0") {
+            var confirmVat = Math.round(confirmSubtotal * 0.1);
+            var confirmTotal = (confirmSubtotal + confirmVat);
+            
+            // showing confirmation message
+            if(confirmSubtotal == "0"){
                 confirmation.innerText = "Sorry, You didn't book any ticket.";
             }
-            else {
-                console.log(typeof confirmVAT);
-                
+            else{
                 var firstClassTicket = ticketCountChange("confirmation", "firstClassInput");
                 var economyTicket = ticketCountChange("confirmation", "economyInput");
                 document.getElementById("firstClassTicket").innerText = firstClassTicket;
                 document.getElementById("economyTicket").innerText = economyTicket;
                 document.getElementById("confirmSubtotal").innerText = confirmSubtotal;
-                document.getElementById("confirmVAT").innerText = confirmVAT;
+                document.getElementById("confirmVat").innerText = confirmVat;
                 document.getElementById("confirmTotal").innerText = confirmTotal;
-                
-            }
+            } 
 
-            
         }) 
         }
         

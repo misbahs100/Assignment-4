@@ -121,8 +121,14 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+
+/* my edit */
 .confirmation{
     width: 80%;
     color: white;
     background-color:  #3352F2;
+}
+.plus-minus-btn button{
+    color: #3352F2;
+    font-size: 20px;  
 }
