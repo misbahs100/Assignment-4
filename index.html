@@ -71,7 +71,7 @@
                     <p><span id="economyPlus" style="cursor: pointer;">+</span> <span id="economyMinus" style="cursor: pointer;">-</span></p>
                 </div>
             </div>
-            <div class="calculations">
+            <div id="calculations" class="calculations">
                 <div class="amount">
                     <div class="left">
                         <p>Subtotal</p>
@@ -113,8 +113,13 @@
     </section>
     <div id="confirmation" class="confirmation booking-form">
         <h3>Thank you for booking your ticket(s).</h3>
-        <p>You have purchased your ticket(s) with a cost of total $<span id="confirmTotal">0</span>.</p>
-        <p>$<span id="confirmVAT">0</span> has been added as Value Added Tax.</p>
+        <p>Number of first class ticket(s): <span id="firstClassTicket">0</span></p>
+        <p>Number of economy ticket(s): <span id="economyTicket">0</span></p>
+        <br>
+        <p>Your subtotal cost: $<span id="confirmSubtotal">0</span>.</p>
+        <p>Value Added Tax: $<span id="confirmVat">0</span>.</p>
+        <p>Your total cost: $<span id="confirmTotal">0</span>.</p>
+        
     </div>
 
     <!--Script--------------------------->
@@ -127,15 +132,12 @@
         bookingBtn();   // in case of - if customer doesn't book any ticket
 
         firstClassPlus.addEventListener("click", function(){
-           ticketCountChange("plus", "firstClassInput");
-           calculation();
-           
-           
+            ticketCountChange("plus", "firstClassInput");
+            calculation();
         })
         firstClassMinus.addEventListener("click", function(){
             ticketCountChange("minus", "firstClassInput");
             calculation();
-
         })
         economyPlus.addEventListener("click", function(){
             ticketCountChange("plus", "economyInput");
@@ -148,11 +150,21 @@
 
         function ticketCountChange(indicator, id){
             var ticketCount = document.getElementById(id).value;
-            if(indicator == "plus") {ticketCount++;}
-            else if(indicator == "minus" && ticketCount>0) {ticketCount--;}
-
-            document.getElementById(id).value = ticketCount;
+            if(indicator == "plus") {
+                ticketCount++;
+                document.getElementById(id).value = ticketCount;
             
+            }
+            else if(indicator == "minus" && ticketCount>0) {
+                ticketCount--;
+                document.getElementById(id).value = ticketCount;
+            }
+            else if(indicator == "confirmation"){
+                return ticketCount;
+            }
+
+            
+                        
         }
         function calculation(){
             var firstClassTicket = document.getElementById("firstClassInput").value;
@@ -167,8 +179,9 @@
             return subtotal;
             
         }
-       
+        //confirmation
         function bookingBtn(){
+            
             var confirmation = document.getElementById("confirmation");
             confirmation.style.display = "none";
             var bookBtn = document.getElementById("bookingBtn");
@@ -177,18 +190,27 @@
             confirmation.style.display = "block";
             document.getElementById("bookingForm").style.display = "none"; 
 
-          
             var confirmSubtotal = calculation();
             var confirmVAT = Math.round(confirmSubtotal * 0.1);
             var confirmTotal = (confirmSubtotal + confirmVAT);
-            if(confirmTotal == "0") {
+            console.log(confirmTotal);
+            if(confirmSubtotal == "0") {
                 confirmation.innerText = "Sorry, You didn't book any ticket.";
             }
             else {
-                document.getElementById("confirmTotal").innerText = confirmTotal;
+                console.log(typeof confirmVAT);
+                
+                var firstClassTicket = ticketCountChange("confirmation", "firstClassInput");
+                var economyTicket = ticketCountChange("confirmation", "economyInput");
+                document.getElementById("firstClassTicket").innerText = firstClassTicket;
+                document.getElementById("economyTicket").innerText = economyTicket;
+                document.getElementById("confirmSubtotal").innerText = confirmSubtotal;
                 document.getElementById("confirmVAT").innerText = confirmVAT;
+                document.getElementById("confirmTotal").innerText = confirmTotal;
+                
             }
-           
+
+            
         }) 
         }
         
